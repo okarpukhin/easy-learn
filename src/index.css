@@ -1,0 +1,23 @@
+* { padding: 0; margin: 0;}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+li { 
+  display: block; padding: 2rem 0; 
+  width: 100%;
+  font-size: 3rem; text-align: center;
+  cursor:pointer;
+  border-bottom: 1px solid #666;
+  letter-spacing: 0.5rem;
+}
+
+li:hover { background-color: #f0f0f0; }
+
+li.active { background-color: #f99; }
+li.active.correct { background-color: #9f9; }
+
+div.hearts  { padding-top: 1rem; }
+div.hearts span { margin-left: 1rem; font-size: 2rem;}
