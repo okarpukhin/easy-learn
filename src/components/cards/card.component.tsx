@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card } from '../api/Settings';
+import { AudioCard } from './audio-card';
 
 interface Props {
-  card: Card;
+  card: AudioCard;
   isCorrect: boolean;
   onSuccess: () => void;
   onFail: () => void;
@@ -13,7 +13,7 @@ interface State {
 }
 
 class CardComponent extends React.Component<Props, State> {
-  readonly card: Card;
+  readonly card: AudioCard;
   readonly isCorrect: boolean;
   readonly onSuccess: () => void
   readonly onFail: () => void;

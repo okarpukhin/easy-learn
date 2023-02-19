@@ -14,17 +14,20 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const audioFolder = "/Users/okarpuhin/projects/easy-start/resources/audio";
+const settings = {
+  audioFolder: "/Users/okarpuhin/projects/easy-learn/resources/audio",
+  openDevTools: true,
+};
 
-function readLibrary(libraryName: string, callback: (library: Library)=>void): void {
+function readLibrary(libraryName: string, callback: (library: Library) => void): void {
   const library: Library = {
     name: libraryName,
     cards: [],
   };
 
-  fs.readdir(audioFolder + "/" + libraryName, (err, files) => {
+  fs.readdir(settings.audioFolder + "/" + libraryName, (err, files) => {
     files.forEach(file => {
-      if(file.endsWith(".mp3")){
+      if (file.endsWith(".mp3")) {
         library.cards.push({ name: file.substring(0, file.length - 4) });
       }
     });
@@ -33,25 +36,25 @@ function readLibrary(libraryName: string, callback: (library: Library)=>void): v
 }
 
 ipcMain.on('get-settings', (event) => {
-  readLibrary("all", library => {
+  readLibrary("easy", library => {
     const settings: Settings = {
-      libraries: [ library ]
+      libraries: [library]
     };
-    
+
     event.sender.send('send-settings', settings);
   })
 });
 
 var player = createPlayer({})
 ipcMain.on('play-audio', (event, audio) => {
-  player.play(audioFolder + "/" + audio);
+  player.play(settings.audioFolder + "/" + audio);
 });
 
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 800,
-    width: 400,
+    width: settings.openDevTools ? 800 : 400,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: false,
@@ -62,8 +65,10 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (settings.openDevTools) {
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished

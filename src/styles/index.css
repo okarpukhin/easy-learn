@@ -1,0 +1,82 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+li {
+  display: block;
+  padding: 2rem 0;
+  width: 100%;
+  font-size: 3rem;
+  text-align: center;
+  cursor: pointer;
+  border-bottom: 1px solid #666;
+  letter-spacing: 0.5rem;
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}
+
+li.active {
+  background-color: #f99;
+}
+
+li.active.correct {
+  background-color: #9f9;
+}
+
+div.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 0.3rem 0.5rem;
+
+  font-size: 1.5rem;
+  border-bottom: 1px solid #666;
+  background-color: #f0f0f0;
+}
+
+div.header div.hearts span {
+  margin-right: 0.6rem;
+}
+
+div.finish {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+div.finish>div {
+  width: 100%;
+  height: 20rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+div.finish>div.gameover {
+  background-image: url("crying-cat.png");
+}
+
+div.finish>div.win {
+  background-image: url("happy-cat.png");
+}
+
+div.finish button {
+  width: 10rem;
+  height: 3rem;
+  margin: 0 auto;
+}
