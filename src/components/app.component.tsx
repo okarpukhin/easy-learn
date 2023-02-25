@@ -82,7 +82,7 @@ class AppComponent extends React.Component<Props, State> {
 }
 
 window.bridge.sendSettings((event, settings) => {
-    const libraries = [settings.libraries[0]];
+    const libraries = settings.libraries;
 
     const root = ReactDOM.createRoot(document.getElementById("root"));
 

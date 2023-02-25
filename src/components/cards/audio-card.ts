@@ -7,7 +7,8 @@ class AudioCard {
         this.library = library;
     }
 
-    play():void {
+    play(): void {
+        // https://soundoftext.com
         window.electronAPI.playAudio(this.library + "/" + this.name + ".mp3");
     }
 }
