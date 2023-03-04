@@ -5,6 +5,8 @@ class AudioCard {
     constructor(name: string, library: string) {
         this.name = name;
         this.library = library;
+
+        this.play = this.play.bind(this);
     }
 
     play(): void {

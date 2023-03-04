@@ -20,40 +20,33 @@ const settings = {
   openDevTools: true,
 };
 
-function readLibraries(): Library[] {
+function readLibraries(relativeFolderPath?: string): Library[] {
   let libraries: Library[] = [];
 
-  fs.readdirSync(settings.audioFolder).forEach(file => {
-    if (fs.statSync(settings.audioFolder + "/" + file).isDirectory()) {
-      libraries.push(readLibrary(file));
-    }
-  })
+  let maybeCurrentLibrary: Library = { name: relativeFolderPath, cards: [] };
 
-  return libraries
-}
-
-function readLibrary(libraryName: string): Library {
-  const library: Library = {
-    name: libraryName,
-    cards: [],
-  };
-
-  let files = fs.readdirSync(settings.audioFolder + "/" + libraryName);
-
-  files.forEach(file => {
-    if (file.endsWith(".mp3")) {
-      library.cards.push({ name: file.substring(0, file.length - 4) });
+  fs.readdirSync(settings.audioFolder + (relativeFolderPath ? "/" + relativeFolderPath : "")).forEach(file => {
+    let relativeFilePath = (relativeFolderPath ? relativeFolderPath + "/" : "") + file;
+    if (fs.statSync(settings.audioFolder + "/" + relativeFilePath).isDirectory()) {
+      readLibraries(relativeFilePath).forEach(l => libraries.push(l));
+    } else {
+      if (file.endsWith(".mp3")) {
+        maybeCurrentLibrary.cards.push({ name: file.substring(0, file.length - 4) });
+      }
     }
   });
 
-  return library;
+  if (maybeCurrentLibrary.cards.length > 0) {
+    libraries.push(maybeCurrentLibrary);
+  }
+
+  return libraries
 }
 
 ipcMain.on('get-settings', (event) => {
   const settings: Settings = {
     libraries: readLibraries(),
   };
-
   event.sender.send('send-settings', settings);
 });
 

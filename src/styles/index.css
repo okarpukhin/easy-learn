@@ -9,12 +9,13 @@ body {
   margin: 0px;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-li {
+.cards li {
   display: block;
   padding: 2rem 0;
   width: 100%;
@@ -25,15 +26,15 @@ li {
   letter-spacing: 0.5rem;
 }
 
-li:hover {
+.cards li:hover {
   background-color: #f0f0f0;
 }
 
-li.active {
+.cards li.active {
   background-color: #f99;
 }
 
-li.active.correct {
+.cards li.active.correct {
   background-color: #9f9;
 }
 
@@ -75,8 +76,26 @@ div.finish>div.win {
   background-image: url("happy-cat.png");
 }
 
-div.finish button {
+button {
   width: 10rem;
   height: 3rem;
+  margin: 0.5rem auto;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.react-dropdown-tree-select .dropdown-trigger {
+  display: none !important;
+}
+
+.react-dropdown-tree-select .dropdown {
   margin: 0 auto;
+}
+
+.react-dropdown-tree-select .dropdown .dropdown-content {
+  position: inherit !important;
 }

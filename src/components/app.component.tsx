@@ -4,6 +4,7 @@ import { Library } from '../api/Settings';
 import { Status } from './cards/board';
 import CardsComponent from './cards/cards.component';
 import HeaderComponent from './header.component';
+import Libraries from './settings/libraries.component';
 import { uniqueId } from './utils';
 
 interface Props {
@@ -14,7 +15,7 @@ interface State {
     selectedLibraries: Library[];
     hearts: number;
     status: Status;
-    page: "game" | "gameover" | "win"
+    page: "game" | "gameover" | "win" | "settings"
 }
 
 class AppComponent extends React.Component<Props, State> {
@@ -26,9 +27,10 @@ class AppComponent extends React.Component<Props, State> {
         this.libraries = props.libraries;
 
 
-        this.state = ({ selectedLibraries: this.libraries, hearts: 5, page: "game", status: null });
+        this.state = ({ selectedLibraries: [], hearts: 5, page: "settings", status: null });
 
-        this.newGame = this.newGame.bind(this);
+        this.startGame = this.startGame.bind(this);
+        this.openSettings = this.openSettings.bind(this);
         this.onFail = this.onFail.bind(this);
         this.onStatusChange = this.onStatusChange.bind(this);
     }
@@ -51,22 +53,40 @@ class AppComponent extends React.Component<Props, State> {
         });
     }
 
-    newGame() {
-        this.setState(prevState => ({ selectedLibraries: this.libraries, hearts: 5, page: "game", status: null }));
+    openSettings() {
+        this.modifyState(s => {
+            s.hearts = 5;
+            s.page = "settings";
+            s.status = null;
+        });
+    }
+
+    startGame(selectedLibraries: Library[]) {
+        console.log("startGame: " + selectedLibraries);
+        this.modifyState(s => {
+            s.hearts = 5;
+            s.page = "game";
+            s.selectedLibraries = selectedLibraries;
+            s.status = null;
+        });
     }
 
     render() {
-
         return (
             <div>
-                <HeaderComponent key={uniqueId()} hearts={this.state.hearts} status={this.state.status} />
+                {this.state.page === "settings" &&
+                    <Libraries libraries={this.libraries} onSave={this.startGame} selectedLibraries={this.state.selectedLibraries} />
+                }
+                {this.state.page !== "settings" &&
+                    <HeaderComponent key={uniqueId()} hearts={this.state.hearts} status={this.state.status} />
+                }
                 {this.state.page === "game" &&
                     <CardsComponent libraries={this.state.selectedLibraries} onFail={this.onFail} onStatusChange={this.onStatusChange} />
                 }
                 {(this.state.page === "gameover" || this.state.page === "win") &&
                     <div className="finish">
                         <div className={this.state.page}></div>
-                        <button onClick={this.newGame}>New Game</button>
+                        <button onClick={this.openSettings}>New Game</button>
                     </div>
                 }
             </div>

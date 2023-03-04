@@ -58,7 +58,10 @@ class BoardComponent extends React.Component<Props, State> {
         ));
 
         return (
-            <ul key={this.state.boardId}>{listItems}</ul>
+            <div className='cards'>
+                <ul key={this.state.boardId}>{listItems}</ul>
+                <button onClick={this.board.correctCard.play}>Listen</button>
+            </div>
         );
     }
 }
